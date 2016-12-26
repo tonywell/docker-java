@@ -13,9 +13,14 @@ ENV PATH=$PATH:$JAVA_HOME/bin
 
 RUN echo "http://mirrors.aliyun.com/alpine/v3.4/main" > /etc/apk/repositories \
     && echo "http://mirrors.aliyun.com/alpine/v3.4/community" >> /etc/apk/repositories \
-    && apk add --no-cache --virtual=build-dependencies wget ca-certificates bash tzdata && \
+    && apk add --no-cache --virtual=build-dependencies wget ca-certificates bash tzdata curl && \
     ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" > /etc/timezone && \
+	export TINI_VERSION=0.9.0 && \
+    export TINI_SHA=fa23d1e20732501c3bb8eeeca423c89ac80ed452 && \
+    curl ftp://temp:temp@192.168.50.104/centos7/jenkins/tini-static -o /bin/tini && \
+    echo 'Calculated checksum: '$(sha1sum /bin/tini) && \
+    chmod +x /bin/tini && echo "$TINI_SHA  /bin/tini" | sha1sum -c - && \
     mkdir -p /opt/java && \
     cd /tmp && \
     wget --header "Cookie: oraclelicense=accept-securebackup-cookie;" \
