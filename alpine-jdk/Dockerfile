@@ -2,6 +2,8 @@ FROM frolvlad/alpine-glibc
 
 MAINTAINER tonywell "tongwei1985@gmail.com"
 
+ARG JDK_TOKEN_DIR=
+
 ARG JAVA_DISTRIBUTION=jdk
 ARG JAVA_MAJOR_VERSION=7
 ARG JAVA_UPDATE_VERSION=80
@@ -24,7 +26,7 @@ RUN echo "http://mirrors.aliyun.com/alpine/v3.4/main" > /etc/apk/repositories \
     mkdir -p /opt/java && \
     cd /tmp && \
     wget --header "Cookie: oraclelicense=accept-securebackup-cookie;" \
-     http://download.oracle.com/otn-pub/java/jdk/${JAVA_MAJOR_VERSION}u${JAVA_UPDATE_VERSION}-b${JAVA_BUILD_NUMBER}/jdk-${JAVA_MAJOR_VERSION}u${JAVA_UPDATE_VERSION}-linux-x64.tar.gz && \
+     http://download.oracle.com/otn-pub/java/jdk/${JAVA_MAJOR_VERSION}u${JAVA_UPDATE_VERSION}-b${JAVA_BUILD_NUMBER}${JDK_TOKEN_DIR}/jdk-${JAVA_MAJOR_VERSION}u${JAVA_UPDATE_VERSION}-linux-x64.tar.gz && \
     tar -xzf jdk-${JAVA_MAJOR_VERSION}u${JAVA_UPDATE_VERSION}-linux-x64.tar.gz -C /opt/java &&\
     ln -s ${JAVA_HOME}/bin/java /usr/bin/java && \ 
     rm -rf ${JAVA_HOME}/*src.zip \
